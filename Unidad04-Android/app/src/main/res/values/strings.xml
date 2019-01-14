@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_hello">Hello Word</string>
+    <string name="app_bye">Good Bye Word</string>
+</resources>
