@@ -10,31 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lbenitez.schoolapp.dummy.DummyContent;
-import com.example.lbenitez.schoolapp.dummy.DummyContent.DummyItem;
+import com.example.lbenitez.schoolapp.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class ColegioFragment extends Fragment {
 
   // TODO: Customize parameter argument names
   private static final String ARG_COLUMN_COUNT = "column-count";
   // TODO: Customize parameters
   private int mColumnCount = 1;
-  private OnListFragmentInteractionListener mListener;
+  private ColegiosInteractionListener mListener;
+  MyColegioRecyclerViewAdapter adapter;
+  Context ctx;
+  List<Colegio> colegios;
 
-  /**
-   * Mandatory empty constructor for the fragment manager to instantiate the
-   * fragment (e.g. upon screen orientation changes).
-   */
-  public ColegioFragment() {
-  }
+  public ColegioFragment() { }
 
   // TODO: Customize parameter initialization
   @SuppressWarnings("unused")
@@ -69,7 +61,20 @@ public class ColegioFragment extends Fragment {
       } else {
         recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
       }
-      recyclerView.setAdapter(new MyColegioRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+      colegios = new ArrayList<>();
+      colegios.add(new Colegio("", "IES Triana", "ESO, Bachillerato y FP", "C/San Jacinto"));
+      colegios.add(new Colegio("", "IES Politecnico", "Bachillerato y FP", "C/ Virgen de la Victoria"));
+      colegios.add(new Colegio("", "IES Nervion", "ESO, Bachillerato y FP", "C/ Prof. Buenaventura Pinillos"));
+
+      adapter = new MyColegioRecyclerViewAdapter(
+        ctx,
+        R.layout.fragment_colegio,
+        colegios,
+        mListener
+      );
+
+      //recyclerView.setAdapter(new MyColegioRecyclerViewAdapter(getActivity(), DummyContent.ITEMS, mListener));
     }
     return view;
   }
@@ -78,8 +83,9 @@ public class ColegioFragment extends Fragment {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
+    this.ctx = context;
     if (context instanceof OnListFragmentInteractionListener) {
-      mListener = (OnListFragmentInteractionListener) context;
+      mListener = (ColegiosInteractionListener) context;
     } else {
       throw new RuntimeException(context.toString()
         + " must implement OnListFragmentInteractionListener");
@@ -92,18 +98,5 @@ public class ColegioFragment extends Fragment {
     mListener = null;
   }
 
-  /**
-   * This interface must be implemented by activities that contain this
-   * fragment to allow an interaction in this fragment to be communicated
-   * to the activity and potentially other fragments contained in that
-   * activity.
-   * <p/>
-   * See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
-   */
-  public interface OnListFragmentInteractionListener {
-    // TODO: Update argument type and name
-    void onListFragmentInteraction(DummyItem item);
-  }
+
 }

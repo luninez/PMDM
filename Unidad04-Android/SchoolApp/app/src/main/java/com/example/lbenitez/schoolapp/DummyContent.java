@@ -1,4 +1,4 @@
-package com.example.lbenitez.schoolapp.dummy;
+package com.example.lbenitez.schoolapp;
 
 import java.util.ArrayList;
 import java.util.HashMap;

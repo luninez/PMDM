@@ -1,29 +1,29 @@
 package com.example.lbenitez.schoolapp;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lbenitez.schoolapp.ColegioFragment.OnListFragmentInteractionListener;
-import com.example.lbenitez.schoolapp.dummy.DummyContent.DummyItem;
+import com.example.lbenitez.schoolapp.DummyContent.DummyItem;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegioRecyclerViewAdapter.ViewHolder> {
 
-  private final List<DummyItem> mValues;
-  private final OnListFragmentInteractionListener mListener;
+  private final List<Colegio> mValues;
+  private final ColegiosInteractionListener mListener;
+  private Context ctx;
 
-  public MyColegioRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+  public MyColegioRecyclerViewAdapter(Context ctx, int layout, List<Colegio> items, ColegiosInteractionListener listener) {
     mValues = items;
     mListener = listener;
+    this.ctx = ctx;
   }
 
   @Override
@@ -36,16 +36,17 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
   @Override
   public void onBindViewHolder(final ViewHolder holder, int position) {
     holder.mItem = mValues.get(position);
-    holder.mIdView.setText(mValues.get(position).id);
-    holder.mContentView.setText(mValues.get(position).content);
+    holder.mName.setText(holder.mItem.getNombre_colegio());
+    holder.mDireccion.setText(holder.mItem.getDireccion());
 
-    holder.mView.setOnClickListener(new View.OnClickListener() {
+    Glide.with(ctx).load(holder.mItem.getLogotipo()).into(holder.mImage);
+
+
+    holder.mDireccion.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if (null != mListener) {
-          // Notify the active callbacks interface (the activity, if the
-          // fragment is attached to one) that an item has been selected.
-          mListener.onListFragmentInteraction(holder.mItem);
+          mListener.onColegioDireccionClick(holder.mItem.getDireccion());
         }
       }
     });
@@ -58,20 +59,22 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
 
   public class ViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
-    public final TextView mIdView;
-    public final TextView mContentView;
-    public DummyItem mItem;
+    public final ImageView mImage;
+    public final TextView mName;
+    public final TextView mDireccion;
+    public Colegio mItem;
 
     public ViewHolder(View view) {
       super(view);
       mView = view;
-      mIdView = (TextView) view.findViewById(R.id.item_number);
-      mContentView = (TextView) view.findViewById(R.id.content);
+      mImage = view.findViewById(R.id.image);
+      mName = view.findViewById(R.id.nombre);
+      mDireccion = view.findViewById(R.id.direccion);
     }
 
     @Override
     public String toString() {
-      return super.toString() + " '" + mContentView.getText() + "'";
+      return super.toString() + " '" + mName.getText() + "'" + mDireccion.getText() + "'";
     }
   }
 }

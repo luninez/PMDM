@@ -1,4 +1,4 @@
-package com.example.lbenitez.schoolapp.Modelos;
+package com.example.lbenitez.schoolapp;
 
 import java.util.Objects;
 
