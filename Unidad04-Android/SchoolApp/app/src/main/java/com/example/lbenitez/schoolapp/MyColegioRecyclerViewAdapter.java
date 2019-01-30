@@ -5,12 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.lbenitez.schoolapp.ColegioFragment.OnListFragmentInteractionListener;
-import com.example.lbenitez.schoolapp.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
 
   private final List<Colegio> mValues;
   private final ColegiosInteractionListener mListener;
-  private Context ctx;
+  Context ctx;
 
   public MyColegioRecyclerViewAdapter(Context ctx, int layout, List<Colegio> items, ColegiosInteractionListener listener) {
     mValues = items;
@@ -37,10 +36,9 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
   public void onBindViewHolder(final ViewHolder holder, int position) {
     holder.mItem = mValues.get(position);
     holder.mName.setText(holder.mItem.getNombre_colegio());
-    holder.mDireccion.setText(holder.mItem.getDireccion());
+    holder.mEtapa.setText(holder.mItem.getEtapas_educativas());
 
     Glide.with(ctx).load(holder.mItem.getLogotipo()).into(holder.mImage);
-
 
     holder.mDireccion.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -61,7 +59,8 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
     public final View mView;
     public final ImageView mImage;
     public final TextView mName;
-    public final TextView mDireccion;
+    public final TextView mEtapa;
+    public final Button mDireccion;
     public Colegio mItem;
 
     public ViewHolder(View view) {
@@ -69,7 +68,8 @@ public class MyColegioRecyclerViewAdapter extends RecyclerView.Adapter<MyColegio
       mView = view;
       mImage = view.findViewById(R.id.image);
       mName = view.findViewById(R.id.nombre);
-      mDireccion = view.findViewById(R.id.direccion);
+      mEtapa = view.findViewById(R.id.etapas);
+      mDireccion = view.findViewById(R.id.btnDireccion);
     }
 
     @Override
